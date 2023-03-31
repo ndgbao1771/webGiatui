@@ -1,0 +1,70 @@
+﻿@using App.Models;
+@model IEnumerable<WashService>
+@using App.Menu
+@using App.ExtendMethods
+
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<p>
+    <a class="btn btn-success btn-sm" asp-action="Create">Tạo dịch vụ mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServicePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceDescription)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.ServiceName)
+                    </a>
+                </td>
+                <td>
+                    @item.ServicePrice.ToPriceUnit()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceDescription)
+                </td>
+
+                <td>
+                    <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@*<div>
+    <nav style="justify-content:center">
+        <partial name="_Paging" model="@ViewBag.pagingModel" />
+    </nav>
+</div>*@
+
+@{
+    _sidebarService.setActive("WashService", "WashService", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

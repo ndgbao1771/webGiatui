@@ -1,0 +1,127 @@
+﻿@using App.Menu
+@using App.ExtendMethods
+
+@inject SideBarService _sidebarService
+@{
+    ViewData["Title"] = "Đơn vị tính ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    _sidebarService.setActive("Ingredient", "Ingredient", "Index");
+}
+
+<h3> Thêm đơn vị tính </h3>
+<div class="form-group">
+    <label for="unit">Tên đơn vị</label>
+    <input type="text" class="form-control" id="unit" placeholder="Tên đơn vị tính">
+    <span id="valid-unit"></span>
+</div>
+<div class="form-group">
+    <button class="btn btn-primary" onclick="AddUnitProduct()">Thêm</button>
+</div>
+
+<hr />
+<table class="list-units">
+   
+</table>
+
+
+
+@section Scripts{
+  
+    <script>
+
+        function AddUnitProduct(){
+
+            var Unit = $('#unit').val();
+            var urlUpload = "@Url.Action("CreateUnitProductApi")";
+
+            var formData = new FormData();
+            formData.append("unit", Unit);
+
+            $.ajax({
+                data: formData,
+                cache: false,
+                url: urlUpload,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+
+                    LoadUnitProduct();
+                }
+
+            });
+        }
+        
+        function SetClickDelete(){
+         
+            $(".DeleteUnit").click( function() {
+
+                if (confirm("Bạn có chắc chắn xóa Đơn vị tính ?") != true) return;
+
+                var Button = $(this);
+
+                var id = Button.data("id");
+
+                var formData = new FormData();
+                formData.append("id", id);
+                var urlDeleteUnit = "@Url.Action("DeleteUnitProductApi")";
+
+                $.ajax({
+
+                    data: formData,
+                    cache: false,
+                    url: urlDeleteUnit,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+
+                        LoadUnitProduct();
+                    }
+
+                });
+            });
+        }
+        
+         function LoadUnitProduct(){
+            var urlUpload = "@Url.Action("GetUnitProductApi")";
+            var ListUnit = $(".list-units");
+            ListUnit.empty();
+            ListUnit.append($(' <tr><th> Tên đơn vị tính </th><th> Tác vụ </th></tr>'));
+   
+            $.ajax({
+                cache: false,
+                url: urlUpload,
+                type: "GET",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+
+                     if (data.success == 1){
+                        data.units.forEach(function (item) {
+
+                            var Html = $('<tr><td>' + item.unit + '</td><td> <button class="btn btn-danger DeleteUnit"   data-id="' + item.id + '" >Xóa</button> </td </tr>')
+
+                            ListUnit.append(Html)
+                        });
+                        SetClickDelete();
+                     }else{
+
+                         alert(data.message);
+                     }
+                }
+
+            });
+        }
+
+        $(document).ready(function(){
+            LoadUnitProduct();
+            
+        });
+
+    </script>
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

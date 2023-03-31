@@ -1,0 +1,42 @@
+﻿@model App.Models.Brand
+@using App.Menu
+@using App.ExtendMethods
+
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <dl class="row">
+                <dt class="col-sm-4">
+                    <label asp-for="BrandName" class="control-label"></label>
+                </dt>
+                <dt class="col-sm-8">
+                    <input asp-for="BrandName" class="form-control" />
+                    <span asp-validation-for="BrandName" class="text-danger"></span>
+                </dt>
+             </dl>
+            <div class="form-group">
+                <input class="btn btn-success btn-sm" type="submit" value="Tạo mới" /> |
+                <a class="btn btn-primary btn-sm" asp-action="Index">Trở lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{
+    _sidebarService.setActive("Ingredient", "Ingredient", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

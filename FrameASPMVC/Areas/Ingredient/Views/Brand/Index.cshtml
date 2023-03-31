@@ -1,0 +1,49 @@
+﻿@using App.Models;
+@model IEnumerable<Brand>
+@using App.Menu
+@using App.ExtendMethods
+
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<p class="pb-3">
+    <a class="btn btn-success btn-sm" asp-action="Create">Tạo thương hiệu mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BrandName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.BrandName)
+                    </a>
+            </td>
+            
+            <td>
+                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Xóa thương hiệu</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@{
+    _sidebarService.setActive("Ingredient", "Brand", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

@@ -1,0 +1,186 @@
+@model IEnumerable<App.Models.Orders.Order>
+@using App.Menu
+@using App.ExtendMethods
+@using App.Models
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+
+            <li class="nav-item mr-3">
+                <a class="btn btn-primary btn-sm" asp-action="CreateOrder">Tạo đơn hàng</a>
+            </li>
+
+            <li class="nav-item mr-5">
+                <div class="dropdown">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Bộ lọc đơn hàng
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" asp-route-state="All" asp-action="Index">Tất cả</a>
+                        <hr />
+                        <a class="dropdown-item" asp-route-state="Process" asp-action="Index">Chưa duyệt</a>
+                        <a class="dropdown-item" asp-route-state="Confirm" asp-action="Index">Đã duyệt</a>
+                        <a class="dropdown-item" asp-route-state="CCancel" asp-action="Index">Người dùng hủy</a>
+                        <a class="dropdown-item" asp-route-state="ACancel" asp-action="Index">Admin hủy</a>
+                        <a class="dropdown-item" asp-route-state="Finished" asp-action="Index">Đã hoàn thành</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item mr-3">
+                <form class="form-inline" method="get">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Nhập thông tin muốn tìm" name="infoSearch">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm</button>
+                </form>
+            </li>
+            
+        </ul>
+    </div>
+</nav>
+
+
+<hr />
+
+<div class="card shadow mb-4">
+
+
+    <div class="card-body">
+        <div class="table-responsive">
+<table class="table table-striped">
+    <thead class="bg-primary text-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolumeOrderClothes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateSend)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DatePick)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateOrder)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </a>
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VolumeOrderClothes)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateSend)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DatePick)
+            </td>
+            <td>
+                @Html.Raw(item.StateOrder.StateToVNs())
+            </td>
+            <td>
+                @if(item.StateOrder == App.Models.Orders.State.Confirm)
+                {
+                        <form method="post" asp-action="Finish" asp-route-id="@item.Id">
+                            <button class="btn btn-success btn-sm" type="submit">Hoàn thành</button>
+                        </form>
+                    }
+                    else if (item.StateOrder == App.Models.Orders.State.Finished)
+                    {
+                        <form method="get" asp-action="Payment" asp-route-id="@item.Id">
+                            <button class="btn btn-outline-success btn-sm" type="submit">Thanh toán</button> 
+                        </form>
+                    }
+                    else if (item.StateOrder == App.Models.Orders.State.Paid   )
+                    {
+                      <a id="export" class="btn btn-outline-success btn-sm" onclick="SetClickExport(@item.Id )">Xuất hóa đơn</a>
+                    }
+                    else
+                    {
+                        <form method="get" asp-action="Order" asp-route-id="@item.Id">
+                            <button class="btn btn-primary btn-sm" type="submit">Duyệt đơn</button> |
+                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Hủy đơn</a>
+                        </form>
+                    }
+                
+                
+            </td>
+        </tr>
+        
+}
+        
+    </tbody>
+   
+</table>
+</div>
+</div>
+</div>
+
+
+
+<div>
+    <nav style="justify-content:center">
+        <partial name="_Paging" model="@ViewBag.pagingModel" />
+    </nav>
+</div>
+
+@{
+    _sidebarService.setActive("Order", "Order", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}
+
+ <script>
+
+    function SetClickExport(id) {
+        var url = "https://" + window.location.host + "@Url.Action("ExportBill")" + "/" + id;
+        console.log(url);
+        var doc ="";
+        $.ajax({ url: url, success: function (data) {  
+            doc = data;
+                console.log(doc);
+                
+
+        } });
+        
+        var myWindow = window.open("", "", "width=600,height=1000");
+        myWindow.document.write("hafgshasgha");
+
+        myWindow.onload = function () {
+            myWindow.print();
+            myWindow.close();
+        };
+            
+    }
+    
+
+  
+
+
+ </script>

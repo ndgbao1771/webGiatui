@@ -1,0 +1,69 @@
+body {
+  background: #fff;
+  color: #1d1d1f;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+  /* Vertically center the text there */
+}
+
+.app-navbar {
+  background: rgba(0, 0, 0, 0.8);
+}
+.app-navbar .text-dark {
+  color: #b9c3ce !important;
+}
+.app-navbar .text-dark:hover {
+  color: white !important;
+}
+.app-navbar .navbar-brand {
+  color: #a57dea;
+}
+.app-navbar .navbar-brand:hover {
+  color: #d727da !important;
+}
+.app-navbar .dropdown-toggle {
+  border-color: #a562ad;
+  color: #ae84b3;
+}
+
+.contact-firstcol {
+  background-color: #9854a0;
+  color: white;
+  text-align: center;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+.contact-firstcol h4 {
+  line-height: 40px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+.contact-firstcol img {
+  max-width: 100px;
+}
+
+.formcontact label {
+  font-weight: 700;
+}
+.formcontact .btn-primary {
+  background-color: #9854a0 !important;
+  border-color: #9854a0;
+}

@@ -1,0 +1,139 @@
+﻿@model App.Models.IssueAnInvoice
+@using App.ExtendMethods
+
+
+@{
+	ViewData["Title"] = "Index";
+	Layout = "";
+}
+	<style>
+		table {
+			table-layout: fixed;
+			width: 50%;
+		}
+
+		table td {
+				border-right: solid 1px;
+			}
+
+		table tr {
+				text-align: center;
+			}
+	</style>
+
+
+<body>
+
+	<section class="back">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9">
+					<div>
+						<div>
+							<div class="row ml-5">
+								<div class="col-sm-9 pl-5">
+									<div class="ml-5 pl-2">
+										<h2>Acme LLP</h2>
+										<h6>
+											477 Blackwell Street, <br>Dry Creek, Alaska <br>India
+										</h6>
+
+										<h5>06 September 2017</h5>
+									</div>
+								</div>
+							</div>
+							<br>
+
+							<div>
+								<div class="row ml-5">
+									<div class="col-sm-9 pl-5">
+										<h3 class="ml-2 pl-5">Hoa don giat ui</h3>
+									</div>
+								</div>
+								<br>
+								<div class="row ml-5">
+
+									<div class="col-sm-3 pl-5">
+										<div>
+											<h6>Số</h6>
+										</div>
+									</div>
+									<div class="col-sm-5 pl-5">
+										<div>
+											<h6>
+												@Html.DisplayNameFor(model => model.DateCreateInvoice) :
+												@Html.DisplayFor(model => model.DateCreateInvoice)
+											</h6>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-xs-9">
+								<hr class="divider">
+							</div>
+
+							<div class="">
+								<div class="row ml-5">
+									<div class="col-sm-9 pl-5">
+										<dl class="row">
+											<dt class="col-sm-5">@Html.DisplayNameFor(model => model.CustomerName)</dt>
+											<dd class="col-sm-7">@Html.DisplayFor(model => model.CustomerName)</dd>
+											<dt class="col-sm-5">@Html.DisplayNameFor(model => model.CustomerPhone)</dt>
+											<dd class="col-sm-7">@Html.DisplayFor(model => model.CustomerPhone)</dd>
+											<dt class="col-sm-5">@Html.DisplayNameFor(model => model.CustomerAddress)</dt>
+											<dd class="col-sm-7">@Html.DisplayFor(model => model.CustomerAddress)</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<br>
+
+						<div class="">
+							<div class="ml-5">
+								<div class="ml-5">
+									<table>
+										<tr>
+											<td>@Html.DisplayNameFor(model => model.CustomerVolumeClothes)</td>
+											<td>@Html.DisplayNameFor(model => model.orders.ServiceName)</td>
+											<td>@Html.DisplayNameFor(model => model.orders.ServicePrice)</td>
+										</tr>
+										<tr>
+											<td>@Html.DisplayFor(model => model.CustomerVolumeClothes)</td>
+											<td>@Html.DisplayFor(model => model.orders.ServiceName)</td>
+											<td>@Html.DisplayFor(model => model.orders.ServicePrice)</td>
+										</tr>
+									</table>
+									<br><br>
+									<div class="row">
+										<div class="col-sm-9">
+											<dl class="row">
+												<dt class="col-sm-5">@Html.DisplayNameFor(model => model.TotalPriceWash)</dt>
+												<dd class="col-sm-7">@Html.DisplayFor(model => model.TotalPriceWash)</dd>
+												<dt class="col-sm-5">@Html.DisplayNameFor(model => model.MoneyGiveCustomer)</dt>
+												<dd class="col-sm-7">@Html.DisplayFor(model => model.MoneyGiveCustomer)</dd>
+												<dt class="col-sm-5">@Html.DisplayNameFor(model => model.MoneyReturn)</dt>
+												<dd class="col-sm-7">@Html.DisplayFor(model => model.MoneyReturn)</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-9">
+							<hr class="divider">
+						</div>
+						<div class="col-sm-9 ml-5">
+							<h6 class="ml-5 pl-5">Hân hạnh được phục vụ !</h6>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+<input type="button" value="IN HOÁ ĐƠN" onclick="this.style.display ='none'; window.print()" class="btn btn-primary" />
+	

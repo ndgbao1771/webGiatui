@@ -1,0 +1,38 @@
+﻿@model App.Models.Brand
+@using App.Menu
+@using App.ExtendMethods
+
+@inject SideBarService _sidebarService
+
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Hãy chắc chắn rằng bạn muốn xóa thương hiệu này?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BrandName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BrandName)
+        </dd>
+    </dl>
+    
+    <form class="pt-4" asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input class="btn btn-danger btn-sm" type="submit" value="Xóa" /> |
+        <a class="btn btn-primary btn-sm" asp-action="Index">Hủy</a>
+    </form>
+</div>
+
+@{
+    _sidebarService.setActive("Ingredient", "Ingredient", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

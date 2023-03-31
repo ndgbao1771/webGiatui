@@ -1,0 +1,118 @@
+﻿@model App.Models.IssueAnInvoice
+@using App.ExtendMethods
+@using App.Menu
+
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="orderId" />
+            <div class="form-group">
+                <label asp-for="CustomerName" class="control-label"></label>
+                <input asp-for="CustomerName" class="form-control" readonly />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerPhone" class="control-label"></label>
+                <input asp-for="CustomerPhone" class="form-control" readonly />
+                <span asp-validation-for="CustomerPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerEmail" class="control-label"></label>
+                <input asp-for="CustomerEmail" class="form-control" readonly />
+                <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerAddress" class="control-label"></label>
+                <input asp-for="CustomerAddress" class="form-control" readonly />
+                <span asp-validation-for="CustomerAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerVolumeClothes" class="control-label"></label>
+                <input asp-for="CustomerVolumeClothes" class="form-control" readonly />
+                <span asp-validation-for="CustomerVolumeClothes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalPriceWash" class="control-label"></label>
+                <input type="number" asp-for="TotalPriceWash" class="form-control" id="TotalPriceWash" readonly/>
+                <span asp-validation-for="TotalPriceWash" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MoneyGiveCustomer" class="control-label"></label>
+                <input type="number" asp-for="MoneyGiveCustomer" class="form-control" id="MoneyGiveCustomer" />
+                <span asp-validation-for="MoneyGiveCustomer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MoneyReturn" class="control-label"></label>
+                <input type="number" asp-for="MoneyReturn" class="form-control" id="MoneyReturn" readonly />
+                <span asp-validation-for="MoneyReturn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StateInvoice" class="form-check-label ml-4">
+                    <input type="checkbox" asp-for="StateInvoice" class="form-check-input" />
+                    @Html.DisplayNameFor(Model => Model.StateInvoice)
+                </label>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Launch demo modal
+                </button>
+               
+                <a class="btn btn-sm btn-primary" asp-action="Index">Trở lại</a>
+            </div>
+
+            <!-- Button trigger modal -->
+            
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <input class="btn btn-sm btn-outline-success" type="submit" value="Thanh toán" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<script>
+    MoneyGiveCustomer.addEventListener("change", CaculatorMoney);
+
+    function CaculatorMoney() {
+        var TotalPriceWash = document.getElementById("TotalPriceWash")
+        var MoneyGiveCustomer = document.getElementById("MoneyGiveCustomer");
+        var MoneyReturn = document.getElementById("MoneyReturn");
+        MoneyReturn.value = MoneyGiveCustomer.value - TotalPriceWash.value;
+        console.log(MoneyReturn);
+    }
+</script>
+
+@{
+    _sidebarService.setActive("Order", "Order", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

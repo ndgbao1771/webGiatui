@@ -1,0 +1,42 @@
+﻿@model App.Models.CategoryIngredient
+@using App.Menu
+@using App.ExtendMethods
+
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Tạo danh mục mới";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Ingredient</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Tạo mới" class="btn btn-primary btn-sm" /> | 
+                <a asp-action="Index">Trở về</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@{
+    _sidebarService.setActive("Ingredient", "CateIngredient", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

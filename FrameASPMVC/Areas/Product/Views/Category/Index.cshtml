@@ -1,0 +1,63 @@
+@model IEnumerable<App.Models.Product.Category>
+
+@{
+    ViewData["Title"] = "Quản lí danh mục sản phẩm";
+}
+
+<h2>Danh sách danh mục</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Slug)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParentCategory)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        await RenderCategory(item, 0);
+}
+    </tbody>
+</table>
+<hr>
+
+<p>
+    <a style="text-decoration: none;" class="btn btn-success btn-sm" asp-action="Create">Tạo chuyên mục mới</a>
+</p>
+
+@{
+    async Task RenderCategory (Category item, int level) {
+        string prefix = string.Concat(Enumerable.Repeat("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", level));
+        <tr>
+            <td>
+                <a style="text-decoration: none;" asp-action="Edit" asp-route-id="@item.Id">
+                    @Html.Raw(prefix) @Html.DisplayFor(modelItem => item.Title)
+                </a> 
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentCategory.Title)
+            </td>
+            <td>
+                <a style="text-decoration: none;" class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                <a style="text-decoration: none;" class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+            </td>
+        </tr>
+        
+        if(item.CategoryChildren?.Count > 0){
+           foreach(var cCategory in item.CategoryChildren){
+                await RenderCategory(cCategory, level+1);
+           }
+        }
+    }
+}

@@ -1,0 +1,94 @@
+﻿@inject SignInManager<AppUser> SignInManager
+
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+    Layout = "_LoginLayout";
+}
+
+<div class="row">
+    <div class="col-lg-2 d-none d-lg-block"></div>
+    <div class="col-lg-8">
+        <div class="p-5">
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">@ViewData["Title"]</h1>
+            </div>
+            <form class="user" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="form-group">
+                    <input class="form-control form-control-user" asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Email" class="form-control form-control-user" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input asp-for="Password" class="form-control form-control-user">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6">
+                        <input asp-for="ConfirmPassword" class="form-control form-control-user">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-user btn-block">Đăng ký</button>
+
+                <hr>
+                @{
+                    var schemes = await SignInManager.GetExternalAuthenticationSchemesAsync();
+                    var loginProviders = schemes.ToList();
+                    if (loginProviders.Count == 0)
+                    {}               
+                    else
+                        {
+                           <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
+                                <div>
+                                    <p>
+                                        @foreach (var provider in loginProviders)
+                                                    {
+                                                        var cssClass = "btn btn-user btn-block";
+                                                        var icon = "";
+                                                        if (@provider.Name == "Google")
+                                                        {
+                                                            cssClass = "btn btn-google btn-user btn-block";
+                                                            icon = "<i class=\"fab fa-google\"></i>";
+                                                        }
+                                                        else if (@provider.Name == "Facebook")
+                                                        {
+                                                            cssClass = "btn btn-facebook btn-user btn-block";
+                                                            icon = "<i class=\"fab fa-facebook\"></i>";
+                                                        }
+                                                        <button type="submit" class="@cssClass" name="provider"
+                                                            value="@provider.Name" title="Log in using your @provider.Name account">
+                                                            @Html.Raw(icon) @provider.Name
+                                                        </button>
+                                                    }          
+                                    </p>            
+                                </div>           
+                            </form>             
+                        }        
+                }                                    
+            </form>
+            <hr>
+            <div class="text-center">
+                <a class="small" asp-action="ForgotPassword">Quyên mật khẩu?</a>
+            </div>              
+            <div class="text-center">
+                <a class="small" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">Đã có tài khoản? Đăng nhập</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 d-none d-lg-block"></div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

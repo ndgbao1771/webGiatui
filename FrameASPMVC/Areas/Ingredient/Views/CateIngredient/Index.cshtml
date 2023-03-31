@@ -1,0 +1,57 @@
+﻿@using App.Models;
+@model IEnumerable<CategoryIngredient>
+@using App.Menu
+@using App.ExtendMethods
+
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Danh sách danh mục";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<p>
+    <a class="btn btn-primary btn-sm" asp-action="Create">Tạo danh mục mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.CategoryName)
+                    </a>
+            </td>
+            
+            <td>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+@*<div>
+    <nav style="justify-content:center">
+        <partial name="_Paging" model="@ViewBag.pagingModel" />
+    </nav>
+</div>*@
+
+@{
+    _sidebarService.setActive("Ingredient", "CateIngredient", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

@@ -1,0 +1,50 @@
+﻿@model App.Models.WashService
+@using App.Menu
+@using App.ExtendMethods
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<h3>Bạn chắc chắn muốn xóa?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ServiceName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ServiceName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ServicePrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.ServicePrice.ToPriceUnit()
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ServiceDescription)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ServiceDescription)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input class="btn btn-danger btn-sm" type="submit" value="Xóa" /> |
+        <a class="btn btn-primary btn-sm" asp-action="Index">Trở lại</a>
+    </form>
+</div>
+
+@{
+    _sidebarService.setActive("WashService", "WashService", "Delete");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

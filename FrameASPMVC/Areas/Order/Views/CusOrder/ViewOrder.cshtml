@@ -1,0 +1,82 @@
+@model IEnumerable<App.Models.Orders.Order>
+@using App.ExtendMethods
+@using App.Models.Orders
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="align-center">
+    <p class="text-center">Đơn hàng của tôi</p>
+</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolumeOrderClothes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateOrder)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VolumeOrderClothes)
+                </td>
+            <td>
+                @if(item.StateOrder == State.CCancel)
+                {
+                    <p class="text-danger">Đơn hàng bị hủy</p>
+                }else
+                {
+                    @Html.Raw(item.StateOrder.StateToVNs())
+                }
+                
+            </td>
+            <td>
+                
+                @if (item.StateOrder == State.CCancel)
+                {
+                    <form class="float-left" method="post" asp-controller="CusOrder" asp-action="ViewOrder" asp-route-id="@item.Id">
+                    <input class="btn btn-secondary btn-sm " disabled type="submit" value="Hủy đơn">
+                </form>  
+                <a class="btn btn-primary btn-sm ml-1" asp-controller="CusOrder" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                <button class="btn btn-secondary btn-sm ml-1" disabled asp-controller="CusOrder" asp-action="Details" asp-route-id="@item.Id">Cập nhật</button> 
+                }else{
+                     <form class="float-left" method="post" asp-controller="CusOrder" asp-action="ViewOrder" asp-route-id="@item.Id">
+                    <input class="btn btn-danger btn-sm" type="submit" value="Hủy đơn">
+                </form> 
+                <a class="btn btn-primary btn-sm ml-1" asp-controller="CusOrder" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> 
+                <a class="btn btn-warning btn-sm ml-1" asp-controller="CusOrder" asp-action="Details" asp-route-id="@item.Id">Cập nhật</a> 
+                }
+
+                
+            </td>
+        </tr>
+        
+}
+    </tbody>
+</table>

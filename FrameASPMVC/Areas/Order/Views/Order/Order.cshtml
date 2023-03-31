@@ -1,0 +1,55 @@
+@model App.Models.OrderDetails
+@using App.Menu
+@using App.ExtendMethods
+@using App.Models
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Tiến hành giặt</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" asp-action="Order">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden"  asp-for="OrderId" />
+            <div class="form-group">
+                <label asp-for="VolumeClothes" class="control-label"></label>
+                <input asp-for="VolumeClothes" class="form-control" />
+                <span asp-validation-for="VolumeClothes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EquipmentId" class="control-label"></label>
+                <select asp-for="EquipmentId" class="form-control" asp-items=" ViewBag.EquipmentIds "></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IngredientID" class="control-label"></label>
+                <select asp-for="IngredientID" class="form-control" asp-items=" ViewBag.IngredientID "></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceWash" class="control-label"></label>
+                <input type="number" asp-for="PriceWash" class="form-control" />
+                <span asp-validation-for="PriceWash" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Tiến hành giặt" class="btn btn-sm btn-primary" />
+                <a class="btn btn-sm btn-danger" asp-action="Index">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@{
+    _sidebarService.setActive("Order", "Order", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

@@ -1,0 +1,74 @@
+@using Microsoft.EntityFrameworkCore
+@using System.Data
+@using App.Menu
+@using App.AppContext
+
+@inject SideBarService _sidebarService
+
+@inject AppDbContext dbContext
+
+@{
+    ViewData["Title"] = "Thông tin Db";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+    var connect = dbContext.Database.GetDbConnection();
+    var dbname = connect.Database;
+    var can_connect = dbContext.Database.CanConnect();
+
+    var GetApplied = dbContext.Database.GetAppliedMigrations();
+    var GetPending = dbContext.Database.GetPendingMigrations();
+}
+
+<partial name="_AlertMessage" />
+
+<h2>Thông tin</h2>
+<p>- Database: @dbname</p>
+<p>- Source: @connect.DataSource</p>
+<p>- State: @connect.State</p>
+<hr>
+<h2>Migrations</h2>
+@foreach (var migration in GetApplied)
+{
+    <p>@migration</p>
+}
+@foreach (var migration in GetPending)
+{
+    <p>@migration (pending)</p>
+}
+@if (!can_connect)
+{
+    <p class="alert alert-danger">Không có khả năng kết nối đến Database</p>
+}
+
+@if (GetPending.Any())
+{
+  <form method="post">
+      <button class = "btn btn-success" asp-action="Migrate">Tạo Db (Cập nhật migration)</button>
+  </form>
+  
+}
+
+@if (can_connect)
+{
+    <h2>Các Table</h2>
+    await dbContext.Database.OpenConnectionAsync();
+    var table = dbContext.Database.GetDbConnection().GetSchema("Tables");
+    <ul>
+      @foreach (System.Data.DataRow row in table.Rows)
+      {
+          <li>@row["TABLE_NAME"]</li>
+      }
+    </ul>
+
+    <a class = "btn btn-danger" asp-action="DeleteDb">Xóa Db:  @dbname</a>
+    <a class = "btn btn-danger" asp-action="SeedData">Seed Data</a>
+
+
+}
+
+@{
+    _sidebarService.setActive("Database", "DbManage", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

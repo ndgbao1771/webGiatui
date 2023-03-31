@@ -1,0 +1,38 @@
+﻿@model App.Models.CategoryElectricEquipment
+@using App.Menu
+@using App.ExtendMethods
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Xóa danh mục";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div>
+    <h4>Ingredient</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CateElecEquipName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CateElecEquipName)
+        </dd>
+        
+    </dl>
+    
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input class="btn btn-danger btn-sm" type="submit" value="Xóa danh mục" /> |
+        <a class="btn btn-primary btn-sm" asp-action="Index">Trở lại</a>
+    </form>
+</div>
+
+@{
+    _sidebarService.setActive("Ingredient", "CateElecEquipment", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

@@ -1,0 +1,73 @@
+﻿@model App.Models.Material
+@using App.Menu
+@using App.ExtendMethods
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IngredientPrice" class="control-label"></label>
+                <input asp-for="IngredientPrice" class="form-control" />
+                <span asp-validation-for="IngredientPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Weight" class="control-label"></label>
+                <input asp-for="Weight" class="form-control" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UnitIngredientWeightID" class="control-label"></label>
+                <select asp-for="UnitIngredientWeightID" class="form-control" asp-items="ViewBag.UnitIngredientWeightID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UnitIngredientAmountID" class="control-label"></label>
+                <select asp-for="UnitIngredientAmountID" class="form-control" asp-items="ViewBag.UnitIngredientAmountID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="brandID" class="control-label"></label>
+                <select asp-for="brandID" class ="form-control" asp-items="ViewBag.BrandId"></select>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="CategoryIngredientID" class="control-label"></label>
+                <select asp-for="CategoryIngredientID" class ="form-control" asp-items=" ViewBag.CateIngredientId "></select>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-success btn-sm" type="submit" value="Tạo mới" /> |
+                <a class="btn btn-primary btn-sm" asp-action="Index">Trở lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{
+    _sidebarService.setActive("Ingredient", "Ingredient", "Index");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

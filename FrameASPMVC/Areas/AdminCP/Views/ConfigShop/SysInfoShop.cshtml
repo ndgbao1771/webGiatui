@@ -1,0 +1,48 @@
+﻿@model App.Models.InfoShop
+@using App.ExtendMethods
+@using App.Menu
+
+
+@inject SideBarService _sidebarService
+
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<a class="btn btn-primary btn-sm" asp-action="CreateInfo">Cập nhật thông tin</a>
+
+<hr/>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ShopName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ShopName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ShopPhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ShopPhoneNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ShopAddress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ShopAddress)
+        </dd>
+    </dl>
+</div>
+
+
+
+
+@{
+	_sidebarService.setActive("AdminCP", "ConfigShop", "SysInfoShop");
+}
+
+@section SideBar{
+	@Html.Raw(_sidebarService.RenderHtml())
+}

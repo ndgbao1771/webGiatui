@@ -1,0 +1,21 @@
+﻿@using App.Menu
+
+@inject SideBarService _sidebarService
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+}
+<p>
+    Thống kê đơn hàng
+</p>
+
+
+
+@{
+    _sidebarService.setActive("StatisticReport", "Statistic", "StatisticOrder");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
+}

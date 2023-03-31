@@ -1,0 +1,14 @@
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorizationService
+
+@{
+    var result = await authorizationService.AuthorizeAsync(this.User, "ViewManageMenu");
+}
+
+@if (result.Succeeded)
+{
+    <a class="nav-link text-dark" asp-action="Index" asp-controller="AdminCP" asp-area="AdminCP">
+        Quản trị
+    </a>
+}
+

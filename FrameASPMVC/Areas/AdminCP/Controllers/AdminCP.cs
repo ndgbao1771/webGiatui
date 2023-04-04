@@ -25,15 +25,13 @@ namespace doan4.Areas.AdminCP.Controllers
         {
         
             ViewData["getInfoStatictis"] = _context.issueAnInvoices.Sum(o => o.TotalPriceWash);
-            ViewData["getInfoOrder"] = _context.orders.Where(o => o.StateOrder == State.Paid && o.DateSend.Day == DateTime.Now.Day).Count();
-            ViewData["getInfoOrder2"] = _context.orders.Where(o => o.DateSend.Day == DateTime.Now.Day).Count();
 
-            var b = _context.issueAnInvoices.Where(o => o.DateCreateInvoice.Day == DateTime.Now.Day && o.DateCreateInvoice.Month == DateTime.Now.Month && o.DateCreateInvoice.Year == DateTime.Now.Year).Count();
+            ViewData["getInfoOrder"] = _context.orders.Where(o => o.StateOrder != State.Paid).Count();
+            ViewData["getInfoOrderToday"] = _context.orders.Where(o => o.DateSend.Day == DateTime.Now.Day).Count();
 
-            ViewData["getProgress"] = (float)_context.orders
-                                              .Where(o => o.StateOrder == State.Paid).Count()
-                                               / (float)_context.orders.Count() * 100;
             ViewData["getContact"] = _context.Contacts.Where(c => c.DateSent.Day == DateTime.Now.Day).Count();
+            ViewData["getUser"] = _context.Users.Count();
+            ViewData["getMoneyInMonth"] = _context.issueAnInvoices.Where(iss => iss.DateCreateInvoice.Month == DateTime.Now.Month).Sum(iss => iss.TotalPriceWash);
             return View();
         }
 

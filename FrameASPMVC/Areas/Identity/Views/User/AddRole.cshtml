@@ -1,4 +1,8 @@
 @model AddUserRoleModel
+@using App.Menu
+
+@inject SideBarService _sidebarService
+
 @{
     ViewData["Title"] = "Gán role";
 }
@@ -71,4 +75,14 @@
     </script>
 
     <partial name="_ValidationScriptsPartial" />
+}
+
+
+
+@{
+    _sidebarService.setActive("Identity", "User", "AddRole");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
 }

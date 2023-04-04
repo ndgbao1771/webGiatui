@@ -4,9 +4,9 @@
     ViewData["Title"] = "Đặt dịch vụ";
 }
 
-
+<h2 class="text-center font-weight-normal">Điền thông tin đơn hàng của bạn tại đây</h2>
 <hr />
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-8">
         <form asp-action="SendOrder">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DateSend" class="control-label"></label>
-                <input type="date" asp-for="DateSend" class="form-control"/>
+                <input type="date" asp-for="DateSend" class="form-control" readonly/>
                 <span asp-validation-for="DateSend" class="text-danger"></span>
             </div>
             <div class="form-group">

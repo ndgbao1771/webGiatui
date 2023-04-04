@@ -16,7 +16,7 @@ namespace App.Models
           [DataType(DataType.Date)]
           public DateTime? BirthDate { get; set; }
 
-        [Display(Name = "Ngày tạo tài khoản")]
+          [Display(Name = "Ngày tạo tài khoản")]
           public DateTime DateCreateAccount { get; set; }
     }
 }

@@ -1,4 +1,8 @@
 @model CreateRoleModel
+@using App.Menu
+
+@inject SideBarService _sidebarService
+
 @{
     ViewData["Title"] = "Tạo role mới";
 }
@@ -28,4 +32,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@{
+    _sidebarService.setActive("Identity", "Role", "Create");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
 }

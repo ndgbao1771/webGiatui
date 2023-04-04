@@ -96,7 +96,7 @@ namespace CoffeeManager.Areas.Product.Controllers
 
         [HttpPost, ActionName(nameof(CreateInfo))]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateInfoConfirmed(int? id,[Bind("Id,ShopName,ShopPhoneNumber,ShopAddress")] InfoShop infoShops)
+        public IActionResult CreateInfoConfirmed(int? id,[Bind("Id,ShopName,ShopPhoneNumber,ShopEmail,ShopAddress")] InfoShop infoShops)
         {
             if (ModelState.IsValid) {
                 var getInfo = _context.infoShops.Count();
@@ -119,6 +119,7 @@ namespace CoffeeManager.Areas.Product.Controllers
                     
                     getInfoUp.ShopName = infoShops.ShopName;
                     getInfoUp.ShopPhoneNumber = infoShops.ShopPhoneNumber;
+                    getInfoUp.ShopEmail = infoShops.ShopEmail;
                     getInfoUp.ShopAddress = infoShops.ShopAddress;
 
                     _context.Update(getInfoUp);

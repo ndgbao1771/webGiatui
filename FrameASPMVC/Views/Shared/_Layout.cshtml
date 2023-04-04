@@ -6,58 +6,86 @@
     <title>@ViewData["Title"] - AppMvc.Net</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="~/lib/boxicons/css/boxicons.min.css" />
+    <link rel="stylesheet" href="~/lib/glightbox//css/glightbox.min.css" />
+    <link rel="stylesheet" href="~/lib/swiper/swiper-bundle.min.css" />
+
+    <link rel="icon" href="~/images/favicon.png" />
+    <link rel="icon" href="~/images/apple-touch-icon.png" />
+
+   
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
     
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&family=Roboto:wght@100&display=swap" rel="stylesheet">
+
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 app-navbar">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Giặt ủi CTUET</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Chính sách</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Contact" asp-controller="Contact" asp-action="SendContact">Liên hệ</a>
-                        </li>       
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Order" asp-controller="CusOrder" asp-action="SendOrder">Đặt giặt ủi</a>
-                        </li>
-                    </ul>
+<body id="page-top">
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+        <div class="container d-flex align-items-center justify-content-between">
+            <h1 class="logo"><a class="text-decoration-none" asp-controller="Home" asp-action="Index">Giặt ủi CTUET</a></h1>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto active" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                    <li><a class="nav-link scrollto" href="#about">Về chúng tôi</a></li>
+                    <li><a class="nav-link scrollto" href="#services">Dịch vụ</a></li>
+                    <li><a class="nav-link scrollto" href="#portfolio">Thông tin</a></li>
+                    <li><a class="nav-link scrollto" href="#rate">Đánh giá</a></li>
+                    <li><a class="nav-link scrollto" href="#contact">Phản hồi</a></li>
+                    <li><a class="nav-link scrollto" asp-area="Order" asp-controller="CusOrder" asp-action="SendOrder">Đặt dịch vụ</a></li>
 
-                    <partial name="_LoginPartial" />
-                    <partial name="_MenuManagePartial" />
-
-
-                    
-                </div>
-            </div>
-        </nav>
+                    <div class="pl-5">
+                        <partial name="_LoginPartial"/>
+                    </div>
+                </ul>  
+            </nav>
+            <!-- .navbar -->
+        </div>
     </header>
+    <!-- End Header -->
+
+
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
+        <main role="main" class="pb-3 pt-5" style="min-height:500px">
+            <div class="mt-5 pt-5 pb-3">
+                @RenderBody()
+            </div>
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - Giặt ủi CTUET - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- ======= Footer ======= -->
+    @await Component.InvokeAsync("infoShopFooter")
+    <!-- End Footer -->
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+   
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+
+    <script src="~/lib/purecounter/purecounter_vanilla.js"></script>
+    <script src="~/lib/glightbox/js/glightbox.min.js"></script>
+    <script src="~/lib/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/lib/swiper/swiper-bundle.min.js"></script>
+
+    <script src="~/js/sb-admin-2.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/js/main.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

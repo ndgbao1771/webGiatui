@@ -72,6 +72,12 @@ namespace doan4.Areas.Orders.Controllers
                                               .OrderByDescending(o => o.DateSend)
                                               .ToList();
             }
+            else if (state != null && state == "Paid")
+            {
+                orders = _context.orders.Include(i => i.issueAnInvoices).Where(o => o.StateOrder == State.Paid)
+                                              .OrderByDescending(o => o.DateSend)
+                                              .ToList();
+            }
             else if (state != null && state == "All")
             {
                 orders = _context.orders.Include(i => i.issueAnInvoices).OrderByDescending(o => o.DateSend).ToList();
@@ -188,6 +194,7 @@ namespace doan4.Areas.Orders.Controllers
             if(id == null) return NotFound();
             if(Order != null)
             {
+                Order.Supervisor = user.Id;
                 Order.StateOrder = State.Confirm;
             }
             if(id != Order.Id)
@@ -411,13 +418,16 @@ namespace doan4.Areas.Orders.Controllers
                 var changeStateOrder = await _context.orders.FindAsync(id);
                 if (changeStateOrder == null) return NotFound();
                 changeStateOrder.StateOrder = State.Paid;
+                changeStateOrder.DateFinish = DateTime.Now;
                 _context.Update(changeStateOrder);
 
                 issueAnInvoices.Id = 0; // nếu ko sử dụng Bind thì phải trả về giá trị Id mặc định để Entity tự động cấp phát
                 issueAnInvoices.DateCreateInvoice = DateTime.Now;
+                
                 _context.Add(issueAnInvoices);
                 await _context.SaveChangesAsync();
             }
+            
             return RedirectToAction(nameof(Index));
         }
 

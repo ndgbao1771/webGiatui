@@ -17,7 +17,11 @@ namespace App.Models
 		[Display(Name = "Số điện thoại")]
 		public string ShopPhoneNumber { get; set; }
 
-		[Required]
+        [Required]
+        [Display(Name = "Email")]
+        public string ShopEmail { get; set; }
+
+        [Required]
 		[Display(Name = "Địa chỉ")]
 		public string ShopAddress { get; set; }
 	}

@@ -1,16 +1,299 @@
-﻿@{
+﻿@model App.Models.Contacts.Contact
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <partial name="_AlertMessage" />
 
-<div class="text-center">
-    <h1 class="display-4">Xin chào</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
 
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <h1>Với Giặt ủi CTUET</h1>
+                <h2>Giao nhận tận nơi, thảnh thơi tại nhà.</h2>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 hero-img">
+                <img src="~/images/img_header.gif" class="img-fluid animated" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Hero -->
 
+<main id="main">
+    <!-- ======= Featured Services Section ======= -->
+    <section id="featured-services" class="featured-services">
+        <div class="container">
 
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="icon-box">
+                        <div class="icon"><i class="far fa-check-circle"></i></div>
+                        <h4 class="title"><p class="text-warning">Tiện lợi</p></h4>
+                        <p class="description">“Thời gian là vô giá” thấu hiểu được giá trị đó chúng tôi cung cấp dịch vụ giao nhận tận nhà 2 chiều. Miễn phí vận chuyển khi dùng gói giặt cao cấp, có ngay đồ sạch như mới trong 5 giờ.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="icon-box">
+                        <div class="icon"><i class="far fa-check-circle"></i></div>
+                        <h4 class="title"><p class="text-warning">Chất lượng</p></h4>
+                        <p class="description">Với đội ngũ chuyên nghiệp, dịch vụ giặt ủi của chúng tôi tại Cần Thơ luôn chăm sóc đồ của bạn cẩn thận và sử dụng nước giặt sinh học từ Mỹ an toàn cho làn da nhạy cảm (sản phẩm đã được kiểm nghiệm về da liễu), giúp cho quần áo của bạn luôn sạch sẽ và an toàn.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <div class="icon"><i class="far fa-check-circle"></i></i></div>
+                        <h4 class="title"><p class="text-warning">An toàn</p></h4>
+                        <p class="description">Mỗi khách hàng được giặt riêng một máy, đảm bảo vệ sinh an toàn với sức khỏe. Chúng tôi coi trọng sự tận tâm phục vụ khách hàng là giá trị cốt lỗi cho sự phát triển bền vững.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
+                    <div class="icon-box">
+                        <div class="icon"><i class="far fa-check-circle"></i></i></div>
+                        <h4 class="title"><p class="text-warning">Chi phí hợp lí</p></h4>
+                        <p class="description">Dịch vụ giặt ủi tại chỗ của chúng tôi đảm bảo sạch sẽ và tiết kiệm thời gian cho khách hàng tại Cần Thơ. Bạn có thể giặt càng nhiều lần càng tiết kiệm với chương trình tích điểm đổi voucher trên toàn hệ thống của chúng tôi. Hãy trải nghiệm dịch vụ giặt đồ tốt nhất và hấp dẫn nhất tại Cần Thơ ngay hôm nay.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Featured Services Section -->
 
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <div class="container">
 
+            <div class="row">
+                <div class="col-lg-6">
+                    <img src="~/images/receiption.jpg" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0 content">
+                    <h3>Tại sao nên chọn dịch vụ Giặt ủi CTUET?</h3>
+                    <p class="fst-italic">
+                        Đây là các lí do bạn nên chọn dịch vụ Giặt ủi CTUET
+                    </p>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Có nhiều năm kinh nghiệm trong việc giặt ủi</li>
+                        <li><i class="fas fa-check-circle"></i> Thái độ phục vụ chu đáo vào nhiệt tình</li>
+                        <li><i class="fas fa-check-circle"></i> Đa dịch vụ, đáp ứng đầy đủ các yêu cầu của bạn</li>
+                    </ul>
+                    <p>
+                        Dịch vụ Giặt ủi CTUET cam kết đem đến cho bạn sự hài lòng tốt nhất, không chỉ đem đến sự tiện lợi mà còn đi kèm mức giá giặt ủi cực tiết kiệm. Bạn sẽ không cần phải chờ đợi.
+                        Mệt mỏi sau một ngày làm việc và học tập dài lại phải tự tay giặt quần áo bẩn
+                    </p>
+                </div>
+            </div>
 
+        </div>
+    </section>
+    <!-- End About Section -->
+    <!-- ======= Counts Section ======= -->
+    @await Component.InvokeAsync("infoShopCount")
+    <!-- End Counts Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+        <div class="container">
+            <div class="section-title">
+                <span>Dịch vụ</span>
+                <h2>Dịch vụ</h2>
+                <p>Các dịch vụ nổi bật mà chúng tôi cung cấp</p>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-tshirt"></i></div>
+                        <h4><a href="">Giặt ủi quần áo</a></h4>
+                        <p>Giặt ủi CTUET là tiệm giặt ủi chuyên nghiệp được thành lập với mục đích cung cấp dịch vụ giặt ủi chất lượng cao, giúp khách hàng tiết kiệm thời gian và nỗ lực trong việc chăm sóc quần áo của mình.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fab fa-shirtsinbulk"></i></div>
+                        <h4><a href="">Chăm sóc đồ cao cấp</a></h4>
+                        <p>Giặt ủi CTUET là địa chỉ tin cậy cho khách hàng có nhu cầu chăm sóc những sản phẩm đồ cao cấp của mình. Với phương châm “Chỉ sử dụng sản phẩm tốt nhất để chăm sóc sản phẩm tốt nhất”, chúng tôi cam kết mang đến cho khách hàng những dịch vụ chăm sóc đồ cao cấp chất lượng nhất.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-vest"></i></div>
+                        <h4><a href="">Giặt lễ phục</a></h4>
+                        <p>Giặt ủi CTUET cung cấp dịch vụ giặt ủi Comple, áo Vest chuyên nghiệp, sử dụng hệ thống máy móc hiện đại, đồng bộ và dung môi chuyên dụng có tính giặt tẩy sạch, an toàn với sức khỏe, thân thiện với môi trường và cộng đồng được nhập khẩu từ Hàn Quốc.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                    <div class="icon-box">
+                        <div class="icon"><i class="bx bx-world"></i></div>
+                        <h4><a href="">Giặt chăn màn, rèm cửa...</a></h4>
+                        <p>Chăn, màn, rèm cửa là một trong những bộ phận quan trọng của ngôi nhà, giúp bảo vệ không gian bên trong khỏi bụi bẩn và côn trùng. Tuy nhiên, việc sử dụng rè cửa thường xuyên cũng dẫn đến việc rè bị bẩn, mùi hôi, và có thể ảnh hưởng đến sức khỏe của người sử dụng. Tại Giặt ủi CTUET, chúng tôi cung cấp dịch vụ vệ sinh rè cửa chuyên nghiệp để giúp bạn đảm bảo sự sạch sẽ và an toàn cho ngôi nhà của mình.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-ankh"></i></div>
+                        <h4><a href="">Vệ sinh gấu bông</a></h4>
+                        <p>Gấu bông là món quà đặc biệt mà nhiều người yêu thích, đặc biệt là trẻ nhỏ. Tuy nhiên, việc vệ sinh gấu bông rất quan trọng để đảm bảo sức khỏe cho người thân của bạn. Tại Giặt ủi CTUET, chúng tôi cung cấp dịch vụ vệ sinh gấu bông chuyên nghiệp để giúp bạn giữ gìn sức khỏe cho người thân của mình.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                    <div class="icon-box">
+                        <div class="icon"><i class="fas fa-shoe-prints"></i></div>
+                        <h4><a href="">Vệ sinh giày các loại</a></h4>
+                        <p>Đôi giày là một trong những đồ dùng hàng ngày của chúng ta, đặc biệt là khi chúng ta sử dụng chúng thường xuyên. Việc vệ sinh giày thường xuyên không chỉ giúp giữ gìn vẻ đẹp của đôi giày mà còn đảm bảo sức khỏe và thoải mái khi sử dụng.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Services Section -->
+
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="section-title">
+                <span>Một số hình ảnh hoạt động của cửa hàng</span>
+                <h2>Một số hình ảnh hoạt động của cửa hàng</h2>
+                <p>Sự hài lòng của khách hàng chính là niềm tự hào của chúng tôi</p>
+            </div>
+
+            <div class="row portfolio-container">
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                    <img src="~/images/portfolio/giatui1.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <p>Máy móc hiện đại</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                    <img src="~/images/portfolio/giatui2.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <p>Số lượng máy lớn</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                    <img src="~/images/portfolio/giatui3.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <p>Nhân viên có kinh nghiệm cao</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                    <img src="~/images/portfolio/giatui4.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <p>Quy trình an toàn</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                    <img src="~/images/portfolio/giatui5.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <p>Các bước giặt tiến hành dễ dàng</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                    <img src="~/images/portfolio/giatui6.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <p>Các bước giặt tiến hành dễ dàng</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                    <img src="~/images/portfolio/giatui7.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <p>Các bước giặt tiến hành dễ dàng</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                    <img src="~/images/portfolio/giatui8.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <p>Sự nhiệt tình của nhân viên</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                    <img src="~/images/portfolio/giatui9.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <p>Đồ đã giặt được xếp ngăn nắp</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Portfolio Section -->
+    <!-- ======= Testimonials Section ======= -->
+   
+    @await Component.InvokeAsync("infoShopRate")
+
+    <!-- End Testimonials Section -->
+
+    <!-- ======= Send Order Section ======= -->
+    
+    <!-- End Send Order Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title">
+                <span>Phản hồi</span>
+                <h2>Phản hồi</h2>
+                <p>Hãy cho chúng tôi biết suy nghĩ của bạn khi trải nghiệm dịch vụ của chúng tôi</p>
+            </div>
+
+            <div class="row">
+                @await Component.InvokeAsync("infoShopContact")
+
+                <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+                    <form asp-area="Contact" asp-controller="Contact" asp-action="SendContact" method="post" role="form" class="php-email-form">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="FullName" class="control-label"></label>
+                                <input asp-for="FullName" class="form-control" />
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6 mt-3 mt-md-0">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label asp-for="Phone" class="control-label"></label>
+                            <input asp-for="Phone" class="form-control" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label asp-for="Message" class="control-label"></label>
+                            <textarea asp-for="Message" class="form-control" name="message" rows="10" required></textarea>
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
+                        <div class="my-3">
+                            <div class="loading">Loading</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Your message has been sent. Thank you!</div>
+                        </div>
+                        <div class="text-center">
+                            <input type="submit" value="Gửi phản hồi" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Contact Section -->
+    
+
+</main>

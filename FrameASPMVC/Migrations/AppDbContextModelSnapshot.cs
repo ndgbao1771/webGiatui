@@ -221,6 +221,10 @@ namespace FrameASPMVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ShopEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ShopName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -397,6 +401,9 @@ namespace FrameASPMVC.Migrations
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("DateFinish")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("DatePick")
                         .HasColumnType("datetime2");
 
@@ -427,6 +434,9 @@ namespace FrameASPMVC.Migrations
 
                     b.Property<int>("StateOrder")
                         .HasColumnType("int");
+
+                    b.Property<string>("Supervisor")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(10,0)");

@@ -38,19 +38,19 @@ namespace FrameASPMVC.Areas.Ingredient.Controllers
         public async Task<IActionResult> Index([FromQuery(Name = "state")] string state,[FromQuery(Name = "page")] int curentPage, int pagesize)
         {
             
-            var appDbContext = _context.electricalEquipments.Include(e => e.cateElecEquipments)
-                                                  .ToList();
+            var appDbContext = await _context.electricalEquipments.Include(e => e.cateElecEquipments)
+                                                  .ToListAsync();
             if (state != null && state == "NonActive")
             {
-                appDbContext = _context.electricalEquipments.Where(o => o.Status == StatusEquip.NonActive)
+                appDbContext = await _context.electricalEquipments.Where(o => o.Status == StatusEquip.NonActive)
                                               .OrderByDescending(o => o.WashingVolume)
-                                              .ToList();
+                                              .ToListAsync();
             }
             else if (state != null && state == "Active")
             {
-                appDbContext = _context.electricalEquipments.Where(o => o.Status == StatusEquip.Active)
+                appDbContext = await _context.electricalEquipments.Where(o => o.Status == StatusEquip.Active)
                                               .OrderByDescending(o => o.WashingVolume)
-                                              .ToList();
+                                              .ToListAsync();
             }
             else
             {

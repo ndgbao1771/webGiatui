@@ -34,6 +34,10 @@ namespace App.Models.Orders {
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DatePick {get; set;}
 
+        [Display(Name = "Ngày hoàn thành")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime DateFinish { get; set; }
+
         [Required(ErrorMessage = "Phải điền thông tin {0}")]
         [Display(Name = "Địa chỉ", Prompt = "Ghi rõ thông tin địa chỉ tại đây...")]
         public string HomeAddress {get; set;}
@@ -46,6 +50,9 @@ namespace App.Models.Orders {
         [ForeignKey("AuthorId")]
         [Display(Name = "Người tạo đơn hàng")]
         public AppUser Author { set; get; }
+
+        [Display(Name = "Người thực hiện")]
+        public string Supervisor { get; set; }
 
         [Display(Name = "Trạng thái đơn hàng")]
         public State StateOrder {get; set;}

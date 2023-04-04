@@ -45,6 +45,7 @@
     <Folder Include="Areas\StatisticReport\Models\" />
     <Folder Include="Areas\WashService\Data\" />
     <Folder Include="Areas\WashService\Models\" />
+    <Folder Include="wwwroot\lib\bootstrap-icons\" />
   </ItemGroup>
 
 </Project>

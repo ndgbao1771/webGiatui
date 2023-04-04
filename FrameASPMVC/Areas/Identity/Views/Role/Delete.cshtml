@@ -1,4 +1,8 @@
 @model IdentityRole
+@using App.Menu
+
+@inject SideBarService _sidebarService
+
 @{
     ViewData["Title"] = "Xóa role";
 }
@@ -24,4 +28,13 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+@{
+    _sidebarService.setActive("Identity", "Role", "Delete");
+}
+
+@section SideBar{
+    @Html.Raw(_sidebarService.RenderHtml())
 }

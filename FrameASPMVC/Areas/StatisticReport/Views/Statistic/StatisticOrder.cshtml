@@ -7,81 +7,614 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+
+    var toParseStatistic = ViewData["StatisticToParse"];
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 
 
 <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 mt-2 text-gray-800 text-center">Bảng thống kê đơn hàng</h1>
+    
 
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <h2 class="nav-link m-0 font-weight-bold text-primary" href="#">Danh sách thống kê</h2>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav pl-5">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle m-0 font-weight-bold btn btn-outline-primary" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Lọc theo
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-fixed-height" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" asp-route-filter="StatisticDay" asp-action="StatisticOrder">Ngày</a>
-                                <a class="dropdown-item" asp-route-filter="StatisticMonth" asp-action="StatisticOrder">Tháng</a>
-                                <a class="dropdown-item" asp-route-filter="StatisticYear" asp-action="StatisticOrder">Năm</a>
+    <ul class="nav nav-tabs" id="example-tabs" role="tablist">
+        <li class="nav-item">
+            <a id="tab1" class="nav-link active" data-toggle="tab" role="tab" href="#statisticorder">Đơn hàng</a>
+        </li>
+        <li class="nav-item">
+            <a id="tab2" class="nav-link" data-toggle="tab" role="tab" href="#pane-tab-2">Nguyên liệu</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="statisticorder" role="tabpanel" aria-labelledby="tab1">
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 mt-2 text-gray-800 text-center">Bảng thống kê đơn hàng</h1>
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="container pt-3">
+                        <form>
+                            <div class="row">
+                                <div class="form-group col-sm-3" style="min-width:200px">
+                                    <label for="start-date">Thời gian bắt đầu</label>
+                                    <input type="date" class="form-control" id="statistic-start-date">
+                                </div>
+                                <div class="form-group col-sm-3" style="min-width:200px">
+                                    <label for="end-date">Thời gian kết thúc</label>
+                                    <input type="date" class="form-control" id="statistic-end-date">
+                                </div>
                             </div>
+                            <div class="row">
+                                <div class="col-sm-2" style="min-width:120px">
+                                    <label for="submit-btn"></label>
+                                    <input type="button" class="btnStatistic btn btn-primary btn-block"value="Thống kê"/>
+                                </div>
+                            </div>
+                        </form>
+                        <hr class="hr" />
+                        <div class="row ml-3">
+                            <div class="col-sm-4">
+                                <div><i class="fas fa-clipboard-list fa-lg" style="color: #65a5e2;"></i> Tổng số: <span id="total"></span> </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div><i class="fas fa-unlink fa-lg" style="color: #65a5e2;"></i> Bị hủy: <span id="totalOrderCancel"></span></div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div><i class="fas fa-wallet fa-lg" style="color: #65a5e2;"></i> Doanh thu: <span id="revenue"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="example-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a id="tab1" class="nav-link active" data-toggle="tab" role="tab" href="#overview">Tổng quan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="tab2" class="nav-link" data-toggle="tab" role="tab" href="#detail">Chi tiết</a>
                         </li>
                     </ul>
+                    <!--Phần nội dung Tab ở đây-->
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="tab1">
+                            <!-- Area Chart -->
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="myAreaChart"></canvas>
+                                </div>
+                            </div>
+
+                            <script>
+
+                                var myLineChart = null;
+                                $(".btnStatistic").click(function () {
+
+                                    var startDate = $("#statistic-start-date").val();
+                                    var endDate = $("#statistic-end-date").val();
+
+                                    var formData = new FormData();
+                                    
+                                    formData.append("startDate", startDate)
+                                    formData.append("endDate", endDate)
+
+                                    console.log(formData);
+                                    var urlUpdateState = "@Url.Action("AjaxProcessCall")";
+
+                                    $.ajax({
+                                        data: formData,
+                                        cache: false,
+                                        url: urlUpdateState,
+                                        type: "POST",
+                                        contentType: false,
+                                        processData: false,
+                                        success: function (data) {
+                                            if(data.error == 0){
+                                                var ol = data.orderlist;
+                                                var xchart = data.listdaylabel;
+                                                var ychart = data.ordertotalpricechart;
+                                                $("#listorder").html("");
+                                                ol.forEach( function (item) {
+                                                    console.log(item);
+                                                   
+                                                    var html = "<tr>"+
+                                                                     "<td>" + item.name + "</td>"
+                                                                   + "<td>" + item.phoneNumber + "</td>"
+                                                                   + "<td>" + item.serviceName + "</td>"
+                                                                   + "<td>" + item.totalWash + "</td>"
+                                                                   + "<td>" + item.totalPrice + "</td>"
+                                                        + "</tr>";
+
+                                                    $("#listorder").append(html);
+
+                                                });
+                                               
+                                                $("#total").html(data.countorder);
+                                                $("#totalOrderCancel").html(data.ordercancel);
+                                                $("#revenue").html(data.ordertotalprice);
+
+                                                
+                                                var ctx = document.getElementById("myAreaChart");
+                                                if(myLineChart!=null)
+                                                {
+                                                    myLineChart.destroy();
+                                                }
+                                                myLineChart = new Chart(ctx, {
+                                                    type: 'line',
+                                                    data: {
+                                                        labels: xchart,
+                                                        datasets: [{
+                                                            label: "Tổng thu: ",
+                                                            lineTension: 0.3,
+                                                            backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                                            borderColor: "rgba(78, 115, 223, 1)",
+                                                            pointRadius: 3,
+                                                            pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                                                            pointBorderColor: "rgba(78, 115, 223, 1)",
+                                                            pointHoverRadius: 3,
+                                                            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                                                            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                                                            pointHitRadius: 10,
+                                                            pointBorderWidth: 2,
+                                                            data: ychart,
+                                                        }],
+                                                    },
+                                                    options: {
+                                                        maintainAspectRatio: false,
+                                                        layout: {
+                                                            padding: {
+                                                                left: 10,
+                                                                right: 25,
+                                                                top: 25,
+                                                                bottom: 0
+                                                            }
+                                                        },
+                                                        scales: {
+                                                            xAxes: [{
+                                                                time: {
+                                                                    unit: 'date'
+                                                                },
+                                                                gridLines: {
+                                                                    display: false,
+                                                                    drawBorder: false
+                                                                },
+                                                                ticks: {
+                                                                    maxTicksLimit: 7
+                                                                }
+                                                            }],
+                                                            yAxes: [{
+                                                                ticks: {
+                                                                    maxTicksLimit: 5,
+                                                                    padding: 10,
+                                                                    // Include a dollar sign in the ticks
+                                                                    callback: function (value, index, values) {
+                                                                        return  number_format(value)+'VNĐ';
+                                                                    }
+                                                                },
+                                                                gridLines: {
+                                                                    color: "rgb(234, 236, 244)",
+                                                                    zeroLineColor: "rgb(234, 236, 244)",
+                                                                    drawBorder: false,
+                                                                    borderDash: [2],
+                                                                    zeroLineBorderDash: [2]
+                                                                }
+                                                            }],
+                                                        },
+                                                        legend: {
+                                                            display: false
+                                                        },
+                                                        tooltips: {
+                                                            backgroundColor: "rgb(255,255,255)",
+                                                            bodyFontColor: "#858796",
+                                                            titleMarginBottom: 10,
+                                                            titleFontColor: '#6e707e',
+                                                            titleFontSize: 14,
+                                                            borderColor: '#dddfeb',
+                                                            borderWidth: 1,
+                                                            xPadding: 15,
+                                                            yPadding: 15,
+                                                            displayColors: false,
+                                                            intersect: false,
+                                                            mode: 'index',
+                                                            caretPadding: 10,
+                                                            callbacks: {
+                                                                label: function (tooltipItem, chart) {
+                                                                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                                                                    return datasetLabel + number_format(tooltipItem.yLabel) + 'VNĐ';
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                                console.log(myLineChart);
+
+                                            }
+                                            else
+                                            {
+                                                console.log("false");
+                                            }  
+                                        }
+                                    });
+                                });
+                                
+                                
+                            </script>
+
+                        </div>
+                        <div class="tab-pane fade" id="detail" role="tabpanel" aria-labelledby="tab2">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="bg-primary text-light">
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => model.Name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                                            <th>@Html.DisplayNameFor(model => model.ServiceName)</th>
+                                            <th>@Html.DisplayNameFor(model => model.VolumeOrderClothes)</th>
+                                            <th>@Html.DisplayNameFor(model => model.TotalPrice)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="listorder">
+                                        @*//*@
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <nav style="justify-content:center">
+                                    <partial name="_Paging" model="@ViewBag.pagingModel" />
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </nav>
-            
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
-                    <thead class="bg-primary text-light">
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.Name)</th>
-                            <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
-                            <th>@Html.DisplayNameFor(model => model.ServiceName)</th>
-                            <th>@Html.DisplayNameFor(model => model.VolumeOrderClothes)</th>
-                            <th>@Html.DisplayNameFor(model => model.TotalPrice)</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        @*<tr>
-                            <th>Tổng giá trị</th>
-                            <th></th>
-                        </tr>*@
-                    </tfoot>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>@Html.DisplayFor(model => item.Name)</td>
-                                <td>@Html.DisplayFor(model => item.PhoneNumber)</td>
-                                <td>@Html.DisplayFor(model => item.ServiceName)</td>
-                                <td>@Html.DisplayFor(model => item.VolumeOrderClothes)</td>
-                                <td>@item.TotalPrice.ToPriceUnit()</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
             </div>
         </div>
+
+        <div class="tab-pane fade" id="pane-tab-2" role="tabpanel" aria-labelledby="tab2">
+            <h1 class="h3 mb-2 mt-2 text-gray-800 text-center">Bảng thống kê sử dụng nguyên liệu</h1>
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="container pt-3">
+                        <form>
+                            <div class="row">
+                                <div class="form-group col-sm-3" style="min-width:200px">
+                                    <label for="start-date">Thời gian bắt đầu</label>
+                                    <input type="date" class="form-control" id="statistic-start-date2">
+                                </div>
+                                <div class="form-group col-sm-3" style="min-width:200px">
+                                    <label for="end-date">Thời gian kết thúc</label>
+                                    <input type="date" class="form-control" id="statistic-end-date2">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2" style="min-width:120px">
+                                    <label for="submit-btn"></label>
+                                    <input type="button" class="btnStatisticIngredient btn btn-primary btn-block" value="Thống kê" />
+                                </div>
+                            </div>
+                        </form>
+                        <hr class="hr" />
+                        <div class="row ml-3">
+                            <div class="col-sm-4">
+                                <div> Tổng số: <span id="totalIngredient"></span> </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div> Sử dụng: <span id="totaIngredientUse"></span></div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div> Còn lại: <span id="remaining"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="example-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a id="tab1" class="nav-link active" data-toggle="tab" role="tab" href="#overviewingre">Tổng quan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="tab2" class="nav-link" data-toggle="tab" role="tab" href="#detailingre">Chi tiết</a>
+                        </li>
+                    </ul>
+                    <!--Phần nội dung Tab ở đây-->
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="overviewingre" role="tabpanel" aria-labelledby="tab1">
+                            <!-- Area Chart -->
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="myAreaChart2" ></canvas>
+                                </div>
+                            </div>
+
+                            <script>
+
+                                var myLineChart2 = null;
+                                $(".btnStatisticIngredient").click(function () {
+
+                                    var startDate = $("#statistic-start-date2").val();
+                                    var endDate = $("#statistic-end-date2").val();
+
+                                    var formData = new FormData();
+
+                                    formData.append("startDate", startDate)
+                                    formData.append("endDate", endDate)
+
+                                    console.log(formData);
+                                    var urlUpdateState = "@Url.Action("StatisticIngredient")";
+
+                                    $.ajax({
+                                        data: formData,
+                                        cache: false,
+                                        url: urlUpdateState,
+                                        type: "POST",
+                                        contentType: false,
+                                        processData: false,
+                                        success: function (data) {
+                                            if (data.error == 0) {
+                                                var xchart = data.listlabel;
+                                                var ychart = data.ingreuse;
+                                                var ingredient1 = data.ingredient1;
+                                                var ingreuse2 = data.ingreuse2;
+                                                var materialuse = data.materialuse;
+                                                var ingreorderuse = data.ingreorderuse;
+
+                                                console.log(ingredient1);
+
+                                                $("#listingre").html("");
+                                                ingredient1.forEach(function (item) {
+                                                    var html = "<tr>" +
+                                                            "<td>" + item.nameIngre + "</td>"
+                                                            + "<td>" + item.weigh + "</td>"
+                                                            + "<td>" + item.totalWeigh + "</td>"
+                                                            + "<td>" + item.weighUsed + "</td>"
+                                                            + "<td>" + item.currentWeigh + "</td>"
+                                                        + "</tr>";
+                                                        console.log(item);
+                                                    $("#listingre").append(html);
+                                                });
+
+                                                $("#totalIngredient").html(ingreuse2 + " kg" + " (" + ingreuse2 * 1000 + " g" + ")"); 
+                                                $("#totaIngredientUse").html(ingreorderuse / 1000 + " kg" + " (" + ingreorderuse+" g"+")");
+                                                $("#remaining").html(materialuse + " kg" + " (" + materialuse*1000 + " g" + ")");
+
+
+                                                var ctx = document.getElementById("myAreaChart2");
+                                                if (myLineChart2 != null) {
+                                                    myLineChart2.destroy();
+                                                }
+                                                myLineChart2 = new Chart(ctx, {
+                                                    type: 'line',
+                                                    data: {
+                                                        labels: xchart,
+                                                        datasets: [{
+                                                            label: "Tổng sử dụng: ",
+                                                            lineTension: 0.3,
+                                                            backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                                            borderColor: "rgba(78, 115, 223, 1)",
+                                                            pointRadius: 3,
+                                                            pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                                                            pointBorderColor: "rgba(78, 115, 223, 1)",
+                                                            pointHoverRadius: 3,
+                                                            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                                                            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                                                            pointHitRadius: 10,
+                                                            pointBorderWidth: 2,
+                                                            data:ychart,
+                                                        }],
+                                                    },
+                                                    options: {
+                                                        maintainAspectRatio: false,
+                                                        layout: {
+                                                            padding: {
+                                                                left: 10,
+                                                                right: 25,
+                                                                top: 25,
+                                                                bottom: 0
+                                                            }
+                                                        },
+                                                        scales: {
+                                                            xAxes: [{
+                                                                time: {
+                                                                    unit: 'date'
+                                                                },
+                                                                gridLines: {
+                                                                    display: false,
+                                                                    drawBorder: false
+                                                                },
+                                                                ticks: {
+                                                                    maxTicksLimit: 7
+                                                                }
+                                                            }],
+                                                            yAxes: [{
+                                                                ticks: {
+                                                                    maxTicksLimit: 5,
+                                                                    padding: 10,
+                                                                    // Include a dollar sign in the ticks
+                                                                    callback: function (value, index, values) {
+                                                                        return number_format(value) + ' gram';
+                                                                    }
+                                                                },
+                                                                gridLines: {
+                                                                    color: "rgb(234, 236, 244)",
+                                                                    zeroLineColor: "rgb(234, 236, 244)",
+                                                                    drawBorder: false,
+                                                                    borderDash: [2],
+                                                                    zeroLineBorderDash: [2]
+                                                                }
+                                                            }],
+                                                        },
+                                                        legend: {
+                                                            display: false
+                                                        },
+                                                        tooltips: {
+                                                            backgroundColor: "rgb(255,255,255)",
+                                                            bodyFontColor: "#858796",
+                                                            titleMarginBottom: 10,
+                                                            titleFontColor: '#6e707e',
+                                                            titleFontSize: 14,
+                                                            borderColor: '#dddfeb',
+                                                            borderWidth: 1,
+                                                            xPadding: 15,
+                                                            yPadding: 15,
+                                                            displayColors: false,
+                                                            intersect: false,
+                                                            mode: 'index',
+                                                            caretPadding: 10,
+                                                            callbacks: {
+                                                                label: function (tooltipItem, chart) {
+                                                                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                                                                    return datasetLabel + number_format(tooltipItem.yLabel) + ' gram';
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                                console.log(myLineChart);
+
+                                            }
+                                            else {
+                                                console.log("false");
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="tab-pane fade" id="detailingre" role="tabpanel" aria-labelledby="tabingre2">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped" id="dataTable2" width="100%" cellspacing="0">
+                                    <thead id="nameDisplayIngre" class="bg-primary text-light">
+                                        <tr>
+                                            <th>Tên nguyên liệu</th>
+                                            <th>Khối lượng đơn</th>
+                                            <th>Tổng khối lượng</th>
+                                            <th>Khối lượng đã sử dụng</th>
+                                            <th>Khối lượng còn lại</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="listingre">
+                                        @*//*@
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <nav style="justify-content:center">
+                                    <partial name="_Paging" model="@ViewBag.pagingModel" />
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+
 </div>
+
+
 <!-- /.container-fluid -->
-<div>
-    <nav style="justify-content:center">
-        <partial name="_Paging" model="@ViewBag.pagingModel" />
-    </nav>
-</div>
+
+
+@section Scripts {
+    <script src="~/js/chart/Chart.min.js"></script>
+    <script src="~/js/chart-area-demo.js"></script>
+    
+    @*<script>
+        var ctx = document.getElementById("myAreaChart");
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["abc", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                    label: "Earnings",
+                    lineTension: 0.3,
+                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                    borderColor: "rgba(78, 115, 223, 1)",
+                    pointRadius: 3,
+                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHoverRadius: 3,
+                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHitRadius: 10,
+                    pointBorderWidth: 2,
+                    data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25,
+                        top: 25,
+                        bottom: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        time: {
+                            unit: 'date'
+                        },
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            maxTicksLimit: 7
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return '$' + number_format(value);
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    intersect: false,
+                    mode: 'index',
+                    caretPadding: 10,
+                    callbacks: {
+                        label: function (tooltipItem, chart) {
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>*@
+}
 
 
 @{

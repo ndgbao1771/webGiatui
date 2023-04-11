@@ -31,23 +31,7 @@ namespace App.Menu {
                             Controller = "Statistic",
                             Action = "StatisticOrder",
                             Area = "StatisticReport",
-                            Title = "Thống kê đơn hàng"
-                        },
-                        new SidebarItem()
-                        {
-                            Type = SidebarItemType.NavItem,
-                            Controller = "Statistic",
-                            Action = "StatisticIngredient",
-                            Area = "StatisticReport",
-                            Title = "Thống kê nguyên liệu"
-                        },
-                        new SidebarItem()
-                        {
-                            Type = SidebarItemType.NavItem,
-                            Controller = "Statistic",
-                            Action = "StatisticFinance",
-                            Area = "StatisticReport",
-                            Title = "Thống kê tài chính"
+                            Title = "Thống kê kinh doanh"
                         },
                         new SidebarItem()
                         {

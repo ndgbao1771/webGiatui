@@ -35,7 +35,7 @@ namespace doan4.Areas.Ingredients.Controllers
         }
 
         // GET: Ingredients/Ingredients
-        public async Task<IActionResult> Index([FromQuery(Name = "page")] int curentPage, int pagesize)
+        public IActionResult Index([FromQuery(Name = "page")] int curentPage, int pagesize)
         {
            var appDbContext =  _context.materials.Include(i => i.brands)
                                                   .Include(i => i.cateIngredients)
